@@ -1,8 +1,8 @@
 # codepath-android-instagram
 
-# Project 1 - SimpleInsta
+# Project 1 - Instr
 
-SimpleInsta is an android app that allows a user to check out popular photos from Instagram. The app utilizes Instagram API to display images and basic image information to the user.
+Instr is an android app that allows a user to check out popular photos from Instagram. The app utilizes Instagram API to display images and basic image information to the user.
 
 Time spent: 8 hours spent in total
 
