@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.myapp.sshah.instr.adapters.InstagramPhotosAdapter;
+import com.myapp.sshah.instr.FeedActivity;
 import com.myapp.sshah.instr.models.InstagramPhoto;
 
 import org.json.JSONArray;
@@ -32,7 +32,7 @@ public class InstagramClient {
         return sharedInstance;
     }
 
-    public void fetchPopularPhotos(final InstagramPhotosAdapter photosAdapter){
+    public void fetchPopularPhotos(final FeedActivity activity){
         //Create network client
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://api.instagram.com/v1/media/popular?client_id=" + CLIENT_ID;
@@ -60,9 +60,7 @@ public class InstagramClient {
                 }catch(JSONException ex){
                     ex.printStackTrace();
                 }
-                photosAdapter.clear();
-                photosAdapter.addAll(popularPhotos);
-                photosAdapter.notifyDataSetChanged();
+                activity.onSuccessPhotoFetch(popularPhotos);
                 Log.i("DEBUG", response.toString());
                 //Get popular photos JSON object
 
