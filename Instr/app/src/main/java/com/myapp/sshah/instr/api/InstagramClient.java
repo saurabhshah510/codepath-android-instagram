@@ -53,6 +53,8 @@ public class InstagramClient {
                         photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
                         photo.likeCount = photoJSON.getJSONObject("likes").getInt("count");
+                        photo.profileImageUrl = photoJSON.getJSONObject("user").getString("profile_picture");
+                        photo.setRelativeTime(photoJSON.getString("created_time"));
                         popularPhotos.add(photo);
                     }
                 }catch(JSONException ex){
