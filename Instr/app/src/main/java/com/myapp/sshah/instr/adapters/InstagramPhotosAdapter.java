@@ -34,14 +34,21 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         ImageView ivProfilePhoto = (ImageView) convertView.findViewById(R.id.ivProfileImage);
         TextView tvTimeAgo = (TextView)convertView.findViewById(R.id.tvTimeAgo);
         TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
-        tvUsername.setText(photo.username);
+        TextView tvComment = (TextView) convertView.findViewById(R.id.tvComment1);
+        tvUsername.setText(photo.user.username);
         tvCaption.setText(photo.caption);
         tvTimeAgo.setText(photo.relativeTime);
         tvLikes.setText(photo.likeCount + " Likes");
+        if(!photo.comments.isEmpty()){
+            tvComment.setText(photo.comments.get(0).comment);
+        }else{
+            tvComment.setText("");
+        }
+
         ivPhoto.setImageResource(0);
         ivProfilePhoto.setImageResource(0);
         Picasso.with(getContext()).load(photo.imageUrl).into(ivPhoto);
-        Picasso.with(getContext()).load(photo.profileImageUrl).into(ivProfilePhoto);
+        Picasso.with(getContext()).load(photo.user.profileImageUrl).into(ivProfilePhoto);
         return convertView;
     }
 

@@ -5,7 +5,9 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.myapp.sshah.instr.FeedActivity;
+import com.myapp.sshah.instr.models.Comment;
 import com.myapp.sshah.instr.models.InstagramPhoto;
+import com.myapp.sshah.instr.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +49,28 @@ public class InstagramClient {
                     for(int i=0;i < photosJSON.length();i++){
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
                         InstagramPhoto photo = new InstagramPhoto();
-                        photo.username = photoJSON.getJSONObject("user").getString("username");
+                        User user = new User();
+                        user.username = photoJSON.getJSONObject("user").getString("username");
+                        user.profileImageUrl = photoJSON.getJSONObject("user").getString("profile_picture");
+                        photo.user = user;
                         photo.caption = photoJSON.getJSONObject("caption").getString("text");
                         photo.type = photoJSON.getString("type");
                         photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
                         photo.likeCount = photoJSON.getJSONObject("likes").getInt("count");
-                        photo.profileImageUrl = photoJSON.getJSONObject("user").getString("profile_picture");
                         photo.setRelativeTime(photoJSON.getString("created_time"));
+                        //Get the latest 2 comments
+                        JSONArray commentsJSON = photoJSON.getJSONObject("comments").getJSONArray("data");
+                        photo.comments = new ArrayList<>();
+                        for(int j=0;j<Math.min(1, commentsJSON.length());j++){
+                            JSONObject commentJSON = commentsJSON.getJSONObject(j);
+                            Comment comment = new Comment();
+                            User commentUser = new User();
+                            commentUser.username = commentJSON.getJSONObject("from").getString("username");
+                            commentUser.profileImageUrl = commentJSON.getJSONObject("from").getString("profile_picture");
+                            comment.comment = commentJSON.getString("text");
+                            photo.comments.add(comment);
+                        }
                         popularPhotos.add(photo);
                     }
                 }catch(JSONException ex){
